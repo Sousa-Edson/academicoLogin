@@ -11,7 +11,7 @@
 	<artifactId>academicologin</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>academicologin</name>
-	<description>projeto para FIEB</description>
+	<description>Academico project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -36,7 +36,11 @@
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>9.4.1.jre11</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -53,14 +57,6 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	 
-		<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
-		<dependency>
-			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>mssql-jdbc</artifactId>
-			<version>9.4.1.jre11</version>
-		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -71,5 +67,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
+
