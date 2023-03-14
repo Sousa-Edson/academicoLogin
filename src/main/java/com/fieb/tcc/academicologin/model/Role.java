@@ -18,6 +18,11 @@ public class Role {
 		return id;
 	}
 
+	public Role(String name) {
+		super();
+		this.name = name;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -29,6 +34,5 @@ public class Role {
 	public void setName(String name) {
 		this.name = name;
 	}
- 
 
 }
