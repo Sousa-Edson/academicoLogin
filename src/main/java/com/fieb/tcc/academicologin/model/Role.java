@@ -14,6 +14,11 @@ public class Role {
 	private Long id;
 	private String name;
 
+	// Construtor padrão (Não possui parâmetros)
+		public Role() {
+			
+		}
+	
 	public Long getId() {
 		return id;
 	}

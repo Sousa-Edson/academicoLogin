@@ -16,33 +16,45 @@ import com.fieb.tcc.academicologin.model.Role;
 import com.fieb.tcc.academicologin.model.User;
 import com.fieb.tcc.academicologin.repository.UserRepository;
 import com.fieb.tcc.academicologin.web.dto.UserDto;
+ 
 
 @Service
 public class UserServiceImpl implements UserService {
+
 	@Autowired
 	private UserRepository userRepository;
-
+	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
 		User user = userRepository.findByEmail(username);
-		if (user == null) {
-			throw new UsernameNotFoundException("Invalid user name or password");
+		if(user == null) {
+			throw new UsernameNotFoundException("Invalid username or password");
 		}
-		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), null);
+		
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), 
+			                                                      user.getPassword(),
+			                                                      mapRolesToAuthorities(user.getRoles()));
 	}
-
+	
 	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-
+		
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
 	}
 
 	@Override
 	public User save(UserDto userDto) {
-		User user = new User(userDto.getFirstName(), userDto.getLastName(), userDto.getEmail(),
-				passwordEncoder.encode(userDto.getPassword()), Arrays.asList(new Role("ROLE_USER")));
+		
+		User user = new User(userDto.getFirstName(), 
+				             userDto.getLastName(), 
+				             userDto.getEmail(), 
+				             passwordEncoder.encode(userDto.getPassword()), 
+				             Arrays.asList(new Role("ROLE_USER")));
+		
+		
 		return userRepository.save(user);
 	}
 
@@ -56,4 +68,6 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+
 }
