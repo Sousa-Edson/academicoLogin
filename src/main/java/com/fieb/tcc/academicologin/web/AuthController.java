@@ -14,41 +14,44 @@ import com.fieb.tcc.academicologin.web.dto.UserDto;
 
 @Controller
 public class AuthController {
-
+	
+	
 	private UserService userService;
-
+	
 	public AuthController(UserService userService) {
-
+		
 		this.userService = userService;
 	}
-
+	
+	
 	@ModelAttribute("user")
 	public UserDto userDto() {
 		return new UserDto();
 	}
-
+	
 	@GetMapping("/registration")
 	public String showRegistrationForm() {
 		return "registration";
 	}
-
+	
+	
 	@PostMapping("/registration")
 	public String registerUserAccount(@ModelAttribute("user") UserDto userDto) {
 		userService.save(userDto);
 		return "redirect:/registration?success";
 	}
-
+	
 	@ResponseBody
-	@RequestMapping(value = "/registration/ajax/getEmail/{campo}/{valor}")
+	@RequestMapping(value="/registration/ajax/getEmail/{campo}/{valor}")
 	public String getSearchResultViaAjaxRegister(@PathVariable("campo") String campo,
-			@PathVariable("valor") String valor) {
-
-		String msg = "";
+			                                     @PathVariable("valor") String valor) {
+		
+		String msg= "";
 		UserDto userDto = new UserDto();
 		userDto.setEmail(valor);
 		User user = userService.findByEmail(userDto);
-		if (user != null) {
-			msg = "Email já existe, escolha em email válido";
+		if(user != null) {
+			msg = "Email já existe, escolha um email válido!";
 		}
 		return msg;
 	}
