@@ -24,7 +24,7 @@ public class AcademicologinApplication {
 				userService.saveRole(new Role("ROLE_ADMIN"));
 				userService.saveRole(new Role("ROLE_INSTRUCTOR"));
 				userService.saveRole(new Role("ROLE_STUDENT"));	
-				
+//				
 			};
 		}
 		
