@@ -2,6 +2,7 @@ package com.fieb.tcc.academicologin.web.dto;
 
 public class UserDto {
 	
+
 	private Long id;
 	private String firstName;
 	private String lastName;
