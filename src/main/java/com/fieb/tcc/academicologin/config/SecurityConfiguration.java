@@ -1,6 +1,7 @@
 package com.fieb.tcc.academicologin.config;
 
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,9 +13,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fieb.tcc.academicologin.filter.CustomAuthenticationFilter;
+import com.fieb.tcc.academicologin.filter.CustomAuthorizationFilter;
 import com.fieb.tcc.academicologin.service.UserService;
 
 
@@ -58,13 +61,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers(
 				"/registration**",
 				"/registration/**",
-				"/api/**",
+				//"/api/**",
 				"/js/**",
 				"/css/**",
 				"/img/**"
 				).permitAll()
 		      .and()
-		      .authorizeRequests().antMatchers(GET, "/users/**").hasAnyAuthority("ROLE_USER")
+		      .authorizeRequests()
+		      .antMatchers(GET, "/users/**").hasAnyAuthority("ROLE_USER")
+		      .antMatchers(GET, "/api/v1/instructor/courses**").hasAnyAuthority("ROLE_INSTRUCTOR")
+		      .antMatchers(POST, "/api/v1/instructor/courses**").hasAnyAuthority("ROLE_INSTRUCTOR")
 	          .anyRequest().authenticated()
 	          .and()
 	          .formLogin().defaultSuccessUrl("/users/home", true)
@@ -81,6 +87,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		// ####   API ####
 		 http.addFilter(customAuthenticationFilter);
+		 http.addFilterBefore(new CustomAuthorizationFilter(), 
+                 UsernamePasswordAuthenticationFilter.class);
 		// ### Fim ####
 		
 	}
